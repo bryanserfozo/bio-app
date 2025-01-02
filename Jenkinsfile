@@ -5,11 +5,9 @@ pipeline {
             steps{
                 sh 'echo "Build Stage started"'
                 sh 'mvn --version'
+                sh 'git pull'
+                sh 'mvn clean -D DB_URL=${DB_URL} -D DB_USERNAME=${DB_USERNAME} -D DB_PASSWORD=${DB_PASSWORD} package'
 
-                dir('bio-app'){
-                    sh 'git pull'
-                    sh 'mvn clean -D DB_URL=${DB_URL} -D DB_USERNAME=${DB_USERNAME} -D DB_PASSWORD=${DB_PASSWORD} package'
-                }
             }
         }
         stage('Test'){
@@ -21,10 +19,8 @@ pipeline {
         stage ('Deploy'){
             steps{
                 sh 'echo "Deploy Stage started" '
-                dir('bio-app'){
-                    sh 'sudo docker build -t bio-app .'
-                    sh 'sudo docker run -d -p 80:8080 -e DB_URL=${DB_URL} -e DB_USERNAME=${DB_USERNAME} -e DB_PASSWORD=${DB_PASSWORD} bio-app'
-                }
+                sh 'sudo docker build -t bio-app .'
+                sh 'sudo docker run -d -p 80:8080 -e DB_URL=${DB_URL} -e DB_USERNAME=${DB_USERNAME} -e DB_PASSWORD=${DB_PASSWORD} bio-app'
             }
 
         }
