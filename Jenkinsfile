@@ -18,8 +18,8 @@ pipeline {
         stage ('Deploy'){
             steps{
                 sh 'echo "Deploy Stage started" '
-                sh 'sudo docker build -t bio-app .'
-                sh 'sudo docker run -d -p 80:8080 -e DB_URL=${DB_URL} -e DB_USERNAME=${DB_USERNAME} -e DB_PASSWORD=${DB_PASSWORD} bio-app'
+                sh 'docker build -t bio-app .'
+                sh 'docker run -d -p 80:8080 -e DB_URL=${DB_URL} -e DB_USERNAME=${DB_USERNAME} -e DB_PASSWORD=${DB_PASSWORD} bio-app'
             }
 
         }
