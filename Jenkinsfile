@@ -5,7 +5,6 @@ pipeline {
             steps{
                 sh 'echo "Build Stage started"'
                 sh 'mvn --version'
-                sh 'git pull'
                 sh 'mvn clean -D DB_URL=${DB_URL} -D DB_USERNAME=${DB_USERNAME} -D DB_PASSWORD=${DB_PASSWORD} package'
 
             }
